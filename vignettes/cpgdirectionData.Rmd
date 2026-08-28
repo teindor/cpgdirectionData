@@ -1,0 +1,65 @@
+---
+title: "cpgdirectionData: the data layers behind cpgdirection"
+author: "Tsachi Ein-Dor"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cpgdirectionData: the data layers behind cpgdirection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Bioconductor software packages are capped at 5 MB per file. Eight of the
+data layers behind the `cpgdirection` package are larger than that, so they
+live here, on ExperimentHub, and are fetched on first use -- then cached
+locally, so the download cost is paid once per machine.
+
+Most users never call this package directly: `cpgdirection` resolves every
+layer through its data backend, using a bundled copy when one is installed
+and falling back to these Hub resources otherwise.
+
+## What is served
+
+```{r resources}
+library(cpgdirectionData)
+cpgdData_resources()[, c("name", "genome")]
+```
+
+Direct retrieval from the Hub (cached after the first download):
+
+```{r hub-mode, eval = FALSE}
+ann <- getEpicv2ProbeGeneAnnotation()
+head(ann)
+```
+
+## Local mode
+
+Air-gapped machines, containers without network access, and analyses that
+must pin an exact data snapshot can serve the same files from a local
+directory instead of the Hub. The chunk below demonstrates the mechanism
+with a stand-in file, so it runs anywhere:
+
+```{r local-mode}
+d <- tempfile()
+dir.create(d)
+saveRDS(data.frame(cpg_id = "cg00000029", chr = "chr16", pos = 53434200L),
+        file.path(d, "cpg_positions_hg19.rds"))
+old <- options(cpgdirectionData.local = d)
+head(getCpgPositionsHg19())
+options(old)
+```
+
+## Provenance
+
+Every resource is built by `inst/scripts/make-data.R` from the full
+cpgdirection build. The multi-source EPIC v2 probe-to-gene annotation is
+the union of five independent tracks (Illumina EPIC-8v2-0_A2 manifest UCSC
+RefGene and GencodeV41; the Zhou lab SeSAMe GENCODE v41 annotation; the
+Exeter GENCODE 47 re-annotation, Zenodo record 15181885, including its
+regulatory-element assignments), with per-track support flags so downstream
+consumers can weight assignments by agreement.
+
+## Session info
+
+```{r session-info}
+sessionInfo()
+```
