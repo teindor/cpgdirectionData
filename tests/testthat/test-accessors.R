@@ -6,7 +6,13 @@ test_that("the resource registry is consistent with metadata.csv", {
                                package = "cpgdirectionData"))
   expect_equal(nrow(meta), nrow(reg))
   expect_setequal(meta$Title, reg$title)
-  expect_setequal(basename(meta$RDataPath), paste0(reg$name, ".rds"))
+  # RDataPath carries the Zenodo download query string; compare the file part
+  expect_setequal(sub("\\?.*$", "", basename(meta$RDataPath)),
+                  paste0(reg$name, ".rds"))
+  # every resource must resolve to one absolute URL under the archived record
+  expect_true(all(grepl("^https://zenodo\\.org/records/[0-9]+/files/$",
+                        meta$Location_Prefix)))
+  expect_true(all(grepl("\\.rds\\?download=1$", meta$RDataPath)))
 })
 
 test_that("an unknown resource name is refused with the available names", {

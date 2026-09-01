@@ -8,7 +8,7 @@ meta <- data.frame(
   BiocVersion = "3.23",
   Genome = reg$genome,
   SourceType = "CSV",
-  SourceUrl = "https://github.com/teindor/cpgdirection",
+  SourceUrl = "https://doi.org/10.5281/zenodo.22225164",
   SourceVersion = "2.5.0",
   Species = "Homo sapiens",
   TaxonomyId = 9606L,
@@ -17,7 +17,8 @@ meta <- data.frame(
   Maintainer = "Tsachi Ein-Dor <teindor@runi.ac.il>",
   RDataClass = "data.frame",
   DispatchClass = "Rds",
-  RDataPath = paste0("cpgdirectionData/", reg$name, ".rds"),
+  Location_Prefix = "https://zenodo.org/records/22225164/files/",
+  RDataPath = paste0(reg$name, ".rds?download=1"),
   stringsAsFactors = FALSE)
 write.csv(meta, "inst/extdata/metadata.csv", row.names = FALSE)
 cat("wrote inst/extdata/metadata.csv (", nrow(meta), " resources)\n", sep = "")

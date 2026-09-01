@@ -1,7 +1,7 @@
 Package: cpgdirectionData
 Type: Package
 Title: Data Layers for the cpgdirection Package (ExperimentHub)
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person("Tsachi", "Ein-Dor", email = "teindor@runi.ac.il",
            role = c("aut", "cre", "fnd"),
@@ -25,6 +25,7 @@ Suggests: testthat (>= 3.0.0), knitr, rmarkdown, cpgdirection
 VignetteBuilder: knitr
 biocViews: ExperimentData, ExperimentHub, Homo_sapiens_Data, MicroarrayData,
     MethylationArrayData, TissueMicroarrayData, Tissue, Genome
-URL: https://github.com/teindor/cpgdirection
+URL: https://github.com/teindor/cpgdirection,
+    https://doi.org/10.5281/zenodo.22225164
 BugReports: https://github.com/teindor/cpgdirection/issues
 Config/roxygen2/version: 8.1.0
