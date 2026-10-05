@@ -26,7 +26,7 @@ cpgdData_resources()[, c("name", "genome")]
 
 Direct retrieval from the Hub (cached after the first download):
 
-```{r hub-mode, eval = FALSE}
+```{r hub-mode, eval = TRUE}
 ann <- getEpicv2ProbeGeneAnnotation()
 head(ann)
 ```

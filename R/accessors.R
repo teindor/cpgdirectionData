@@ -20,7 +20,9 @@
     "cpg_positions_hg19",
     "brain_directions",
     "saliva_bridge_scores",
-    "epicv2_probe_gene_annotation"),
+    "epicv2_probe_gene_annotation",
+    "distal_links",
+    "onco_eqtm_consensus"),
   title = c(
     "cpgdirection lookup_blood_hg19",
     "cpgdirection lookup_nasal_epithelium_hg19",
@@ -29,7 +31,9 @@
     "cpgdirection cpg_positions_hg19",
     "cpgdirection brain_directions",
     "cpgdirection saliva_bridge_scores",
-    "cpgdirection epicv2_probe_gene_annotation"),
+    "cpgdirection epicv2_probe_gene_annotation",
+    "cpgdirection distal_links",
+    "cpgdirection onco_eqtm_consensus"),
   description = c(
     paste("Blood catalogue lookup: 1,663,799 CpG-gene pairs (641,325 CpGs,",
           "hg19) with predicted methylation-expression direction, calibrated",
@@ -46,12 +50,29 @@
           "220,383 CpG-gene pairs with tier and score"),
     paste("Genome-wide synthesised saliva-bridge scores (periphery-to-brain",
           "concordance ensemble percentiles)"),
-    paste("Multi-source EPIC v2 probe-to-gene annotation: 996,697 CpG-gene",
-          "pairs (791,550 CpGs) as the union of five annotation tracks",
+    paste("Multi-source EPIC v2 probe-to-gene annotation: 1,006,212 CpG-gene",
+          "pairs (793,233 CpGs) as the union of five annotation tracks",
           "(Illumina UCSC RefGene, Illumina GencodeV41, Zhou GENCODE v41,",
-          "Exeter GENCODE 47, Exeter regulatory elements) with per-track",
-          "support flags and agreement counts")),
-  genome = c("hg19", "hg19", "hg19", "hg19", "hg19", "hg19", "hg19", "hg38"),
+          "Exeter GENCODE 49 (re-annotated manifest v3.0), Exeter regulatory",
+          "elements) with per-track support flags, agreement counts and the",
+          "Exeter Promoter_2000bp/Enhancer_5000bp labels"),
+    paste("Distal CpG-to-gene links: ENCODE-rE2G thresholded enhancer-gene",
+          "predictions (Gschwind et al. 2026) for 26 resting blood cell types",
+          "and brain regions/cell types (47 released ENCODE annotation sets),",
+          "intersected with EPIC v2 probe positions (hg38) and keyed on the",
+          "cg identifier: 8,036,254 rows, 1,149,157 CpG-gene pairs (514,549",
+          "CpGs); one row per CpG x gene x source x biosample with the rE2G",
+          "score and a tissue class (blood/brain). A link proposes a target",
+          "and carries no direction"),
+    paste("Onco-eQTM cross-tumour cis-eQTM consensus (Korra et al. 2026;",
+          "27 TCGA cancer types, 450K, hg19): 2,464,990 CpG-gene pairs with",
+          "consensus direction, agreement tier (O1 >= 5 cancers agreeing:",
+          "113,560; O2 2-4 agreeing; O3 disagreeing; O4 single cancer),",
+          "number of cancer types and correlation summaries recovered from",
+          "the t statistics. Reported beside, never inside, the peripheral",
+          "direction call")),
+  genome = c("hg19", "hg19", "hg19", "hg19", "hg19", "hg19", "hg19", "hg38",
+             "hg38", "hg19"),
   stringsAsFactors = FALSE)
 
 
@@ -110,15 +131,18 @@ cpgdData <- function(name) {
     return(readRDS(f))
   }
   eh <- ExperimentHub::ExperimentHub()
-  q <- AnnotationHub::query(eh, c("cpgdirectionData", name))
-  if (!length(q)) {
-    stop("Resource '", name, "' was not found on ExperimentHub. ",
-         "Run ExperimentHub::ExperimentHub() once with a working network ",
-         "connection, or point options(cpgdirectionData.local=) at a ",
-         "directory holding the .rds files.", call. = FALSE)
+  hub <- AnnotationHub::query(eh, "cpgdirectionData")
+  title <- reg$title[match(name, reg$name)]
+  ids <- names(hub)[hub$title == title]
+  if (!length(ids)) {
+    stop("Resource '", name, "' is not listed on ExperimentHub for this ",
+         "Bioconductor version (the Hub was reached and ", length(hub),
+         " cpgdirectionData resource(s) are listed). For an offline copy, ",
+         "point options(cpgdirectionData.local=) at a directory holding ",
+         "the .rds files.", call. = FALSE)
   }
-  # several versions can coexist on the Hub; take the newest
-  q[[length(q)]]
+  # several versions of a resource can coexist on the Hub; take the newest
+  eh[[ids[length(ids)]]]
 }
 
 
@@ -133,7 +157,9 @@ cpgdData <- function(name) {
 #'   \code{getBrainDirections()} the brain SMR directions;
 #'   \code{getSalivaBridgeScores()} the saliva-bridge scores; and
 #'   \code{getEpicv2ProbeGeneAnnotation()} the multi-source probe-to-gene
-#'   annotation.
+#'   annotation; \code{getDistalLinks()} the distal enhancer/loop
+#'   CpG-to-gene links; and \code{getOncoEqtmConsensus()} the Onco-eQTM
+#'   cross-tumour consensus.
 #' @return A \code{data.frame}; see \code{\link{cpgdData_resources}} for the
 #'   per-resource description.
 #' @examples
@@ -178,3 +204,11 @@ getSalivaBridgeScores <- function() cpgdData("saliva_bridge_scores")
 #' @rdname layer-accessors
 #' @export
 getEpicv2ProbeGeneAnnotation <- function() cpgdData("epicv2_probe_gene_annotation")
+
+#' @rdname layer-accessors
+#' @export
+getDistalLinks <- function() cpgdData("distal_links")
+
+#' @rdname layer-accessors
+#' @export
+getOncoEqtmConsensus <- function() cpgdData("onco_eqtm_consensus")

@@ -1,22 +1,25 @@
 Package: cpgdirectionData
 Type: Package
 Title: Data Layers for the cpgdirection Package (ExperimentHub)
-Version: 0.99.1
+Version: 0.99.3
 Authors@R: c(
     person("Tsachi", "Ein-Dor", email = "teindor@runi.ac.il",
            role = c("aut", "cre", "fnd"),
            comment = c(ORCID = "0000-0002-3078-7591")))
 Description: ExperimentHub companion to the cpgdirection package. Serves the
-    eight data layers too large to ship inside a Bioconductor software
+    ten data layers too large to ship inside a Bioconductor software
     package: the three tissue catalogue lookup tables (blood, nasal
     epithelium, solid tissue; hg19), the SMR causal-direction table, the
     EPIC v2 hg19 probe positions, the brain SMR directions, the genome-wide
-    saliva bridge scores, and the multi-source EPIC v2 probe-to-gene
+    saliva bridge scores, the multi-source EPIC v2 probe-to-gene
     annotation (five cross-validated annotation tracks with per-track
-    support flags). Each resource is a serialized data.frame retrieved from
-    ExperimentHub on first use and cached locally thereafter. The
-    cpgdirection package consumes these resources transparently; direct use
-    is possible through the accessors documented here.
+    support flags), the distal CpG-to-gene links from ENCODE-rE2G
+    enhancer-gene predictions (hg38), and the Onco-eQTM cross-tumour
+    cis-eQTM consensus (27 TCGA cancer types). Each resource is a
+    serialized data.frame retrieved from ExperimentHub on first use and
+    cached locally thereafter. The cpgdirection package consumes these
+    resources transparently; direct use is possible through the accessors
+    documented here.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.6.0), ExperimentHub
@@ -26,6 +29,6 @@ VignetteBuilder: knitr
 biocViews: ExperimentData, ExperimentHub, Homo_sapiens_Data, MicroarrayData,
     MethylationArrayData, TissueMicroarrayData, Tissue, Genome
 URL: https://github.com/teindor/cpgdirection,
-    https://doi.org/10.5281/zenodo.22225164
+    https://doi.org/10.5281/zenodo.22225163
 BugReports: https://github.com/teindor/cpgdirection/issues
 Config/roxygen2/version: 8.1.0

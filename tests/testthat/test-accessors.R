@@ -1,6 +1,6 @@
 test_that("the resource registry is consistent with metadata.csv", {
   reg <- cpgdData_resources()
-  expect_equal(nrow(reg), 8L)
+  expect_equal(nrow(reg), 10L)
   expect_true(all(nzchar(reg$name)))
   meta <- read.csv(system.file("extdata", "metadata.csv",
                                package = "cpgdirectionData"))
@@ -10,9 +10,8 @@ test_that("the resource registry is consistent with metadata.csv", {
   expect_setequal(sub("\\?.*$", "", basename(meta$RDataPath)),
                   paste0(reg$name, ".rds"))
   # every resource must resolve to one absolute URL under the archived record
-  expect_true(all(grepl("^https://zenodo\\.org/records/[0-9]+/files/$",
-                        meta$Location_Prefix)))
-  expect_true(all(grepl("\\.rds\\?download=1$", meta$RDataPath)))
+  expect_true(all(meta$Location_Prefix == "https://zenodo.org/"))
+  expect_true(all(grepl("^records/[0-9]+/files/[A-Za-z0-9_]+\\.rds$", meta$RDataPath)))
 })
 
 test_that("an unknown resource name is refused with the available names", {

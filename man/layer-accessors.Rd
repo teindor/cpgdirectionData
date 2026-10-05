@@ -10,6 +10,8 @@
 \alias{getBrainDirections}
 \alias{getSalivaBridgeScores}
 \alias{getEpicv2ProbeGeneAnnotation}
+\alias{getDistalLinks}
+\alias{getOncoEqtmConsensus}
 \title{Named accessors for the individual data layers}
 \usage{
 getBloodLookup()
@@ -27,6 +29,10 @@ getBrainDirections()
 getSalivaBridgeScores()
 
 getEpicv2ProbeGeneAnnotation()
+
+getDistalLinks()
+
+getOncoEqtmConsensus()
 }
 \value{
 A \code{data.frame}; see \code{\link{cpgdData_resources}} for the
@@ -41,7 +47,9 @@ Convenience wrappers around \code{\link{cpgdData}}, one per
   \code{getBrainDirections()} the brain SMR directions;
   \code{getSalivaBridgeScores()} the saliva-bridge scores; and
   \code{getEpicv2ProbeGeneAnnotation()} the multi-source probe-to-gene
-  annotation.
+  annotation; \code{getDistalLinks()} the distal enhancer/loop
+  CpG-to-gene links; and \code{getOncoEqtmConsensus()} the Onco-eQTM
+  cross-tumour consensus.
 }
 \examples{
 # Hub retrieval (default):  pos <- getCpgPositionsHg19()

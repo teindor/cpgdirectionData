@@ -8,8 +8,8 @@ meta <- data.frame(
   BiocVersion = "3.23",
   Genome = reg$genome,
   SourceType = "CSV",
-  SourceUrl = "https://doi.org/10.5281/zenodo.22225164",
-  SourceVersion = "2.5.0",
+  SourceUrl = "https://doi.org/10.5281/zenodo.22225163",
+  SourceVersion = "2.99.6",
   Species = "Homo sapiens",
   TaxonomyId = 9606L,
   Coordinate_1_based = TRUE,
@@ -17,8 +17,8 @@ meta <- data.frame(
   Maintainer = "Tsachi Ein-Dor <teindor@runi.ac.il>",
   RDataClass = "data.frame",
   DispatchClass = "Rds",
-  Location_Prefix = "https://zenodo.org/records/22225164/files/",
-  RDataPath = paste0(reg$name, ".rds?download=1"),
+  Location_Prefix = "https://zenodo.org/",
+  RDataPath = paste0("records/23122949/files/", reg$name, ".rds"),
   stringsAsFactors = FALSE)
 write.csv(meta, "inst/extdata/metadata.csv", row.names = FALSE)
 cat("wrote inst/extdata/metadata.csv (", nrow(meta), " resources)\n", sep = "")

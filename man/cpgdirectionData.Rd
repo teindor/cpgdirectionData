@@ -25,6 +25,7 @@ cross-hybridization evidence).
 Useful links:
 \itemize{
   \item \url{https://github.com/teindor/cpgdirection}
+  \item \doi{10.5281/zenodo.22225163}
   \item Report bugs at \url{https://github.com/teindor/cpgdirection/issues}
 }
 
