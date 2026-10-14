@@ -1,3 +1,13 @@
+# cpgdirectionData 0.99.4
+
+* Zenodo deposit moved to version 2.99.8 (record 23257261; concept DOI
+  10.5281/zenodo.22225163 unchanged). `distal_links` was rebuilt and now
+  carries scE2G single-cell enhancer-gene predictions (Sheth et al. 2026)
+  for nine PBMC cell types at E2G.Score.qnorm >= 0.177 beside the
+  ENCODE-rE2G sets: 10,205,122 rows, 1,289,742 CpG-gene pairs, 525,222 CpGs.
+  The other nine resources are byte-identical to v2.99.6. Every RDataPath
+  in metadata.csv now points at the new record; SourceVersion is 2.99.8.
+
 # cpgdirectionData 0.99.3
 
 * ExperimentHub metadata in the form requested by the Hubs team: `Location_Prefix`
